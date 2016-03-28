@@ -31,8 +31,9 @@ ENV HOME /usr/local/app
 
 WORKDIR /usr/local/app
 
-COPY conda-env.yaml $HOME/conda-env.yaml
-RUN ["conda", "install","-n", "root", "--no-pin", "--file", "conda-env.yaml"]
+COPY environment.yml $HOME/environment.yml
+#RUN ["conda", "update", "--no-pin", "--file", "environment.yml"]
+RUN ["conda", "env", "update", "."]
 
 ENTRYPOINT [ "/usr/bin/tini", "--" ]
 CMD [ "/bin/bash" ]
