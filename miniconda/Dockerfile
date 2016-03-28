@@ -1,27 +1,38 @@
-FROM debian:7.4
+FROM centos:7
 
-MAINTAINER Kamil Kwiek <kamil.kwiek@continuum.io>
+MAINTAINER Michael Bishop <michael@logitbot.com>
 
-RUN apt-get update --fix-missing && apt-get install -y wget bzip2 ca-certificates \
-    libglib2.0-0 libxext6 libsm6 libxrender1 \
-    git mercurial subversion
+RUN yum update -y && yum upgrade -y && yum install epel-release -y && yum install -y wget bzip2 ca-certificates \
+    glib2-devel libXext-devel libSM-devel libXrender-devel \
+    git mercurial subversion && yum clean all -y
 RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
-    wget --quiet https://repo.continuum.io/miniconda/Miniconda2-3.19.0-Linux-x86_64.sh && \
-    /bin/bash /Miniconda2-3.19.0-Linux-x86_64.sh -b -p /opt/conda && \
-    rm Miniconda2-3.19.0-Linux-x86_64.sh
+    wget --quiet https://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh && \
+    /bin/bash /Miniconda-latest-Linux-x86_64.sh -b -p /opt/conda && \
+    rm -f Miniconda-latest-Linux-x86_64.sh
 
-RUN apt-get install -y curl grep sed dpkg && \
+RUN yum install -y curl grep sed  && \
     TINI_VERSION=`curl https://github.com/krallin/tini/releases/latest | grep -o "/v.*\"" | sed 's:^..\(.*\).$:\1:'` && \
-    curl -L "https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini_${TINI_VERSION}.deb" > tini.deb && \
-    dpkg -i tini.deb && \
-    rm tini.deb && \
-    apt-get clean
+    curl -L "https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini_${TINI_VERSION}.rpm" > \
+    tini.rpm && \
+    yum install -y tini.rpm && \
+    rm -f tini.rpm && \
+    yum clean all -y
 
-ENV PATH /opt/conda/bin:$PATH
 
 # http://bugs.python.org/issue19846
 # > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
 ENV LANG C.UTF-8
+ENV PATH /opt/conda/bin:$PATH
+
+RUN conda update conda -y
+
+RUN mkdir -p /usr/local/app
+ENV HOME /usr/local/app
+
+WORKDIR /usr/local/app
+
+COPY conda-env.yaml $HOME/conda-env.yaml
+RUN ["conda", "install","-n", "root", "--no-pin", "--file", "conda-env.yaml"]
 
 ENTRYPOINT [ "/usr/bin/tini", "--" ]
 CMD [ "/bin/bash" ]
