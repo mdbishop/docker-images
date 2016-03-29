@@ -39,3 +39,5 @@ RUN  conda env update . &&  conda update numbapro -y && \
 
 ENTRYPOINT [ "/usr/bin/tini", "--" ]
 CMD [ "/bin/bash" ]
+
+# us.gcr.io/vnext-1254/miniconda2
