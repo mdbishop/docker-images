@@ -18,7 +18,9 @@ dependencies:
 - certifi
 - cffi
 - clyent
+- colorlog
 - colorama
+- conda-build
 - configobj
 - cryptography
 - cython
