@@ -32,6 +32,8 @@ ENV HOME /usr/local/app
 WORKDIR /usr/local/app
 
 RUN conda update conda -y && conda clean --all -y
+RUN conda config --add channels 'conda-forge' && conda config --add channels 'defaults' && \
+    conda config --set always_yes yes
 
 COPY environment.yml $HOME/environment.yml
 RUN  conda env update . &&  conda update numbapro -y && \
