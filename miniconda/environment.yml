@@ -18,7 +18,6 @@ dependencies:
 - certifi
 - cffi
 - clyent
-- colorlog
 - colorama
 - conda-build
 - configobj
@@ -85,6 +84,7 @@ dependencies:
 - pip
 - ply
 - psutil
+- psycopg2
 - py
 - pyasn1
 - pycosat
