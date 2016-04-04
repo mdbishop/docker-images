@@ -113,6 +113,7 @@ dependencies:
 #- scikit-image=0.11.3
 #- scikit-learn=0.17.1
 #- scipy=0.16.0
+- semantic_version
 - setuptools
 - simplegeneric
 - six
@@ -149,6 +150,7 @@ dependencies:
   - googleappenginecloudstorageclient
   - httplib2
   - ipython-genutils
+  - jsonmerg
 #  - jupyter-client==4.0.0
 #  - jupyter-core==4.0.6
   - mechanize

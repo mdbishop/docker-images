@@ -24,7 +24,6 @@ RUN yum install -y curl grep sed  && \
 # http://bugs.python.org/issue19846
 # > At the moment, setting "LANG=C" on a
 # Linux system *fundamentally breaks Python 3*
-#ENV LC_ALL C.UTF-8
 ENV LC_ALL en_US.utf8
 ENV PATH /opt/conda/bin:$PATH
 RUN mkdir -p /usr/local/app
