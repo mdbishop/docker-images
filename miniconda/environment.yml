@@ -150,7 +150,7 @@ dependencies:
   - googleappenginecloudstorageclient
   - httplib2
   - ipython-genutils
-  - jsonmerg
+  - jsonmerge
 #  - jupyter-client==4.0.0
 #  - jupyter-core==4.0.6
   - mechanize
