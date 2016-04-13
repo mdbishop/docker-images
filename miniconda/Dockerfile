@@ -13,7 +13,7 @@ RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
     /bin/bash /Miniconda-latest-Linux-x86_64.sh -b -p /opt/conda && \
     rm -f Miniconda-latest-Linux-x86_64.sh
 
-RUN yum install -y curl grep sed iproute && \
+RUN yum install -y curl grep sed iproute hiredis hiredis-devel && \
     TINI_VERSION=`curl https://github.com/krallin/tini/releases/latest | grep -o "/v.*\"" | sed 's:^..\(.*\).$:\1:'` && \
     curl -L "https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini_${TINI_VERSION}.rpm" > \
     tini.rpm && \
@@ -41,4 +41,5 @@ RUN  conda env update . &&  conda update numbapro -y && \
 ENTRYPOINT [ "/usr/bin/tini", "--" ]
 CMD [ "/bin/bash" ]
 
+LABEL com.logitbot.image=us.gcr.io/vnext-1254/miniconda2 com.logitbot.commit=unknown
 # us.gcr.io/vnext-1254/miniconda2
